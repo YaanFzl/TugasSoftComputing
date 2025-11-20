@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="glass-card">
+    <div class="glass-card" id="nn-result-card">
         <h2><i class="ri-line-chart-line"></i> Hasil Pelatihan</h2>
         <div id="nn-results" style="margin-top: 2rem;">
             <p style="color: rgba(255,255,255,0.5);">Latih network untuk melihat hasil...</p>
@@ -164,6 +164,11 @@ weights += np.dot(inputs.T, d_predicted_output) * learning_rate</code></pre>
         html += '</div>';
 
         document.getElementById('nn-results').innerHTML = html;
+
+        // Trigger Particle Glow on Result Card
+        if (window.highlightElement) {
+            window.highlightElement('#nn-result-card');
+        }
     }
 
     function openTheory(evt, theoryName) {

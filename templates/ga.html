@@ -60,17 +60,23 @@
                 </div>
                 <div>
                     <label>Elite Size</label>
-                    <input type="number" id="tsp-elite" value="1">
+                    <input type="number" id="tsp-elite" value="2">
                 </div>
             </div>
 
-            <button class="btn-glow" onclick="runTSP()" style="margin-top: 1rem;">Jalankan Simulasi</button>
+            <button class="btn-glow" style="margin-top: 2rem; width: 100%;" onclick="runTSP()">Jalankan Evolusi</button>
         </div>
-        <div>
-            <h3>Hasil</h3>
-            <div id="tsp-results">
-                <p>Jarak Terbaik: <span id="tsp-dist">-</span></p>
-                <p>Rute: <span id="tsp-route">-</span></p>
+
+        <div class="glass-card" id="tsp-result-card" style="display: none;">
+            <h2><i class="ri-flag-line"></i> Hasil Terbaik</h2>
+            <div style="text-align: center; margin-top: 2rem;">
+                <h3 style="color: var(--tertiary-color); font-size: 2rem;" id="tsp-distance">0 km</h3>
+                <p>Jarak Minimum</p>
+            </div>
+            <div style="margin-top: 1rem; max-height: 200px; overflow-y: auto;">
+                <h4>Rute:</h4>
+                <p id="tsp-path" style="font-family: monospace; color: rgba(255,255,255,0.8); word-wrap: break-word;">
+                </p>
             </div>
         </div>
     </div>
@@ -110,47 +116,53 @@
                 </div>
             </div>
 
-            <button class="btn-glow" onclick="runKnapsack()" style="margin-top: 1rem;">Jalankan Simulasi</button>
+            <button class="btn-glow" style="margin-top: 2rem; width: 100%;" onclick="runKnapsack()">Cari Solusi
+                Optimal</button>
         </div>
-        <div>
-            <h3>Hasil</h3>
-            <div id="k-results">
-                <p>Nilai Terbaik: <span id="k-value">-</span></p>
-                <p>Total Berat: <span id="k-weight">-</span></p>
-                <p>Barang: <span id="k-items">-</span></p>
+
+        <div class="glass-card" id="knapsack-result-card">
+            <h2><i class="ri-trophy-line"></i> Hasil Optimal</h2>
+            <div style="display: flex; justify-content: space-around; margin-top: 2rem; text-align: center;">
+                <div>
+                    <h3 style="color: var(--secondary-color); font-size: 2rem;" id="k-value">0</h3>
+                    <p>Total Nilai</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--primary-color); font-size: 2rem;" id="k-weight">0</h3>
+                    <p>Total Berat</p>
+                </div>
+            </div>
+            <div style="margin-top: 2rem;">
+                <h4>Item Terpilih:</h4>
+                <p id="k-items" style="color: rgba(255,255,255,0.8); margin-top: 0.5rem;">-</p>
             </div>
         </div>
 
-        <div class="glass-card" style="margin-top: 2rem;">
-            <h2><i class="ri-book-open-line"></i> Teori & Konsep</h2>
-            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
-                <div>
-                    <h3>Konsep Dasar</h3>
-                    <p><b>Algoritma Genetika</b> meniru proses seleksi alam. Solusi terbaik (fittest) bertahan dan
-                        bereproduksi.</p>
-                    <ol style="margin-left: 1.5rem; margin-top: 1rem;">
-                        <li><b>Inisialisasi:</b> Membuat populasi awal secara acak.</li>
-                        <li><b>Evaluasi:</b> Menghitung skor fitness setiap individu.</li>
-                        <li><b>Seleksi:</b> Memilih orang tua (parents) berdasarkan fitness.</li>
-                        <li><b>Crossover:</b> Mengawinkan orang tua untuk menghasilkan anak.</li>
-                        <li><b>Mutasi:</b> Mengubah gen secara acak untuk variasi.</li>
-                    </ol>
-                </div>
-                <div>
-                    <h3>Parameter Penting</h3>
-                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
-                        <li><b>Population Size:</b> Jumlah individu dalam satu generasi.</li>
-                        <li><b>Generations:</b> Jumlah iterasi evolusi.</li>
-                        <li><b>Crossover Rate (pc):</b> Peluang terjadinya perkawinan.</li>
-                        <li><b>Mutation Rate (pm):</b> Peluang terjadinya mutasi gen.</li>
-                        <li><b>Elitism:</b> Membawa individu terbaik ke generasi berikutnya tanpa perubahan.</li>
-                    </ul>
-                </div>
-            </div>
+        <div>
+            <h3>Konsep Dasar</h3>
+            <p><b>Algoritma Genetika</b> meniru proses seleksi alam. Solusi terbaik (fittest) bertahan dan
+                bereproduksi.</p>
+            <ol style="margin-left: 1.5rem; margin-top: 1rem;">
+                <li><b>Inisialisasi:</b> Membuat populasi awal secara acak.</li>
+                <li><b>Evaluasi:</b> Menghitung skor fitness setiap individu.</li>
+                <li><b>Seleksi:</b> Memilih orang tua (parents) berdasarkan fitness.</li>
+                <li><b>Crossover:</b> Mengawinkan orang tua untuk menghasilkan anak.</li>
+                <li><b>Mutasi:</b> Mengubah gen secara acak untuk variasi.</li>
+            </ol>
+        </div>
+        <div>
+            <h3>Parameter Penting</h3>
+            <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                <li><b>Population Size:</b> Jumlah individu dalam satu generasi.</li>
+                <li><b>Generations:</b> Jumlah iterasi evolusi.</li>
+                <li><b>Crossover Rate (pc):</b> Peluang terjadinya perkawinan.</li>
+                <li><b>Mutation Rate (pm):</b> Peluang terjadinya mutasi gen.</li>
+                <li><b>Elitism:</b> Membawa individu terbaik ke generasi berikutnya tanpa
+                    perubahan.</li>
+            </ul>
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts %}
@@ -228,13 +240,31 @@
             });
         }
 
-        if (response.ok) {
-            const data = await response.json();
-            document.getElementById('tsp-dist').innerText = data.best_distance.toFixed(2);
-            document.getElementById('tsp-route').innerText = data.best_route.join(' -> ');
+        const data = await response.json();
+
+        // Debug: Log the response data
+        console.log('TSP Response:', data);
+
+        // Display Results
+        document.getElementById('tsp-result-card').style.display = 'block';
+        document.getElementById('tsp-distance').innerText = data.best_distance.toFixed(2) + ' km';
+
+        // Handle best_path - check different possible formats
+        const pathElement = document.getElementById('tsp-path');
+        if (data.best_path && Array.isArray(data.best_path)) {
+            pathElement.innerText = data.best_path.join(' → ');
+        } else if (data.best_route && Array.isArray(data.best_route)) {
+            pathElement.innerText = data.best_route.join(' → ');
+        } else if (data.path && Array.isArray(data.path)) {
+            pathElement.innerText = data.path.join(' → ');
         } else {
-            const err = await response.json();
-            alert("Error: " + (err.detail || "Gagal menjalankan simulasi"));
+            console.warn('best_path not found in response. Available keys:', Object.keys(data));
+            pathElement.innerText = 'Rute tidak tersedia (periksa console untuk detail)';
+        }
+
+        // Trigger Particle Glow on Result Card
+        if (window.highlightElement) {
+            window.highlightElement('#tsp-result-card');
         }
     }
 
@@ -275,6 +305,11 @@
         document.getElementById('k-value').innerText = data.final_value;
         document.getElementById('k-weight').innerText = data.final_weight;
         document.getElementById('k-items').innerText = data.best_items.join(', ');
+
+        // Trigger Particle Glow on Result Card
+        if (window.highlightElement) {
+            window.highlightElement('#knapsack-result-card');
+        }
     }
 </script>
 {% endblock %}
