@@ -32,24 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < particlesCount; i++) {
         const t = i * 0.1;
         const helixRadius = 2;
-        const lengthScale = 0.03; // Controls how long the DNA is
-        const xPos = (i * lengthScale) - 20; // Spread along X-axis
+        const lengthScale = 0.03;
+        const xPos = (i * lengthScale) - 20;
 
-        // Strand 1
         if (i % 2 === 0) {
-            targets.dna.push(xPos);                       // x (Length)
-            targets.dna.push(Math.cos(t) * helixRadius);  // y (Height)
-            targets.dna.push(Math.sin(t) * helixRadius);  // z (Depth)
+            targets.dna.push(xPos);
+            targets.dna.push(Math.cos(t) * helixRadius);
+            targets.dna.push(Math.sin(t) * helixRadius);
         } else {
-            // Strand 2
             targets.dna.push(xPos);
             targets.dna.push(Math.cos(t + Math.PI) * helixRadius);
             targets.dna.push(Math.sin(t + Math.PI) * helixRadius);
         }
     }
-    // Fill remaining if any (just random)
     while (targets.dna.length < particlesCount * 3) targets.dna.push((Math.random() - 0.5) * 20);
-
 
     // 3. Sphere/Cloud (Fuzzy)
     for (let i = 0; i < particlesCount; i++) {
@@ -63,11 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     while (targets.sphere.length < particlesCount * 3) targets.sphere.push((Math.random() - 0.5) * 20);
 
-
-    // 4. Neuron (NN) - Central sphere + branching lines
+    // 4. Neuron (NN)
     for (let i = 0; i < particlesCount; i++) {
         if (i < 500) {
-            // Soma (Center)
             const r = 1.5 * Math.random();
             const theta = Math.random() * Math.PI * 2;
             const phi = Math.acos(2 * Math.random() - 1);
@@ -75,25 +69,23 @@ document.addEventListener('DOMContentLoaded', () => {
             targets.neuron.push(r * Math.sin(phi) * Math.sin(theta));
             targets.neuron.push(r * Math.cos(phi));
         } else {
-            // Dendrites/Axons (Lines radiating out)
-            const branch = Math.floor(i / 100); // Create branches
+            const branch = Math.floor(i / 100);
             const dist = (i % 100) * 0.1 + 1.5;
-            const angle = branch * (Math.PI * 2 / 10); // 10 main branches
+            const angle = branch * (Math.PI * 2 / 10);
             const spread = (Math.random() - 0.5) * 0.5;
 
             targets.neuron.push(dist * Math.cos(angle + spread));
             targets.neuron.push(dist * Math.sin(angle + spread));
-            targets.neuron.push((Math.random() - 0.5) * 2); // Flattened z
+            targets.neuron.push((Math.random() - 0.5) * 2);
         }
     }
     while (targets.neuron.length < particlesCount * 3) targets.neuron.push((Math.random() - 0.5) * 20);
-
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     // Material
     const material = new THREE.PointsMaterial({
-        size: 0.05, // Slightly larger for better visibility
+        size: 0.05,
         color: 0x00f2ea,
         transparent: true,
         opacity: 0.8,
@@ -135,19 +127,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Morphing Logic
         const positions = particlesGeometry.attributes.position.array;
         for (let i = 0; i < particlesCount * 3; i++) {
-            // Lerp to target
-            positions[i] += (currentTarget[i] - positions[i]) * 0.03; // Speed of morph
+            positions[i] += (currentTarget[i] - positions[i]) * 0.03;
         }
         particlesGeometry.attributes.position.needsUpdate = true;
 
         // Rotation Logic
         if (isGA) {
-            // Rolling effect for DNA (Rotate around X axis)
             particlesMesh.rotation.x = elapsedTime * 0.2;
-            particlesMesh.rotation.y = 0; // Keep Y stable
-            particlesMesh.rotation.z = Math.sin(elapsedTime * 0.5) * 0.1; // Gentle sway
+            particlesMesh.rotation.y = 0;
+            particlesMesh.rotation.z = Math.sin(elapsedTime * 0.5) * 0.1;
         } else {
-            // Standard rotation for others
             particlesMesh.rotation.y = elapsedTime * 0.05;
             particlesMesh.rotation.x += (mouseY * 0.5 - particlesMesh.rotation.x) * 0.05;
             particlesMesh.rotation.y += (mouseX * 0.5) * 0.05;
@@ -165,33 +154,24 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Navbar Hide/Show on Scroll
-    let lastScrollTop = 0;
-    const navbar = document.querySelector('.navbar');
-    let ticking = false;
+    // Hamburger Menu Toggle
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('nav-links');
 
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
 
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // Scrolling down & past threshold
-                    navbar.style.transform = 'translateY(-100%)';
-                    navbar.style.transition = 'transform 0.3s ease';
-                } else {
-                    // Scrolling up
-                    navbar.style.transform = 'translateY(0)';
-                    navbar.style.transition = 'transform 0.3s ease';
-                }
-
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-                ticking = false;
+        // Close menu when clicking nav link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                navLinks.classList.remove('active');
             });
-
-            ticking = true;
-        }
-    });
+        });
+    }
 
     // Card Glow Effect
     const cards = document.querySelectorAll('.glass-card');
