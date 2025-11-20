@@ -165,6 +165,34 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // Navbar Hide/Show on Scroll
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down & past threshold
+                    navbar.style.transform = 'translateY(-100%)';
+                    navbar.style.transition = 'transform 0.3s ease';
+                } else {
+                    // Scrolling up
+                    navbar.style.transform = 'translateY(0)';
+                    navbar.style.transition = 'transform 0.3s ease';
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+    });
+
     // Card Glow Effect
     const cards = document.querySelectorAll('.glass-card');
     cards.forEach(card => {
