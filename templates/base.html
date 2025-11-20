@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Soft Computing Web3{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-logo">Soft <span style="color: var(--primary-color);">Computing</span></div>
+        <div class="nav-links">
+            <a href="/">Beranda</a>
+            <a href="/ga">Algoritma Genetika</a>
+            <a href="/fuzzy">Logika Fuzzy</a>
+            <a href="/nn">Neural Network</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Soft Computing Web3. Designed for the Future.</p>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

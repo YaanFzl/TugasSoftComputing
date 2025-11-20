@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Neural Network - Soft Computing{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h1>🧠 Pelatih Neural Network</h1>
+    <p>Latih Neural Network (MLP) sederhana untuk mempelajari Gerbang Logika (AND, OR, XOR).</p>
+</div>
+
+<div class="grid">
+    <div class="glass-card">
+        <h2>⚙️ Konfigurasi</h2>
+        <div style="margin-top: 2rem;">
+            <label>Gerbang Logika</label>
+            <select id="gate">
+                <option value="AND">Gerbang AND</option>
+                <option value="OR">Gerbang OR</option>
+                <option value="XOR">Gerbang XOR (Non-linear)</option>
+            </select>
+
+            <label style="margin-top: 1rem; display: block;">Epochs</label>
+            <input type="number" id="epochs" value="5000" step="1000">
+
+            <label style="margin-top: 1rem; display: block;">Learning Rate</label>
+            <input type="number" id="lr" value="0.1" step="0.01">
+
+            <button class="btn-glow" style="margin-top: 2rem; width: 100%;" onclick="trainNN()">Latih Network</button>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <h2>📈 Hasil Pelatihan</h2>
+        <div id="nn-results" style="margin-top: 2rem;">
+            <p style="color: rgba(255,255,255,0.5);">Latih network untuk melihat hasil...</p>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card">
+    <h2>📚 Teori: Backpropagation</h2>
+    <p>Network belajar dengan menyesuaikan bobot untuk meminimalkan kesalahan antara prediksi dan target.
+        Untuk XOR (masalah non-linear), diperlukan Hidden Layer.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function trainNN() {
+        const gate = document.getElementById('gate').value;
+        const epochs = document.getElementById('epochs').value;
+        const lr = document.getElementById('lr').value;
+
+        document.getElementById('nn-results').innerHTML = '<p>Melatih...</p>';
+
+        const response = await fetch('/api/nn/train', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                gate: gate,
+                epochs: Number(epochs),
+                learning_rate: Number(lr)
+            })
+        });
+
+        const data = await response.json();
+
+        let html = '<table style="width:100%; text-align:left; border-collapse: collapse;">';
+        html += '<tr><th>Input</th><th>Target</th><th>Prediksi</th></tr>';
+
+        data.predictions.forEach(p => {
+            const color = Math.abs(p.target - p.prediction) < 0.1 ? '#00f2ea' : '#ff0050';
+            html += `<tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <td style="padding: 10px;">${p.input}</td>
+            <td>${p.target}</td>
+            <td style="color: ${color}; font-weight: bold;">${p.prediction.toFixed(4)}</td>
+        </tr>`;
+        });
+        html += '</table>';
+
+        html += '<h4 style="margin-top: 1rem;">Riwayat Loss</h4>';
+        html += `<div style="display: flex; align-items: flex-end; height: 50px; gap: 2px;">`;
+        data.loss_history.forEach(loss => {
+            html += `<div style="flex: 1; background: var(--primary-color); height: ${loss * 100}%;"></div>`;
+        });
+        html += '</div>';
+
+        document.getElementById('nn-results').innerHTML = html;
+    }
+</script>
+{% endblock %}

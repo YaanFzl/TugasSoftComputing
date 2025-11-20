@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}Algoritma Genetika - Soft Computing{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h1>🧬 Simulator Algoritma Genetika</h1>
+    <p>Pilih masalah yang ingin diselesaikan menggunakan komputasi evolusioner.</p>
+
+    <div style="margin-top: 2rem;">
+        <button class="btn-glow" onclick="showTab('tsp')">TSP (Traveling Salesperson)</button>
+        <button class="btn-glow" onclick="showTab('knapsack')"
+            style="background: transparent; border: 1px solid var(--secondary-color);">Knapsack</button>
+    </div>
+</div>
+
+<!-- TSP Section -->
+<div id="tsp-section" class="glass-card">
+    <h2>🗺️ Simulator TSP</h2>
+    <div class="grid">
+        <div>
+            <label>Sumber Data</label>
+            <select id="tsp-source" onchange="toggleTSPSource()">
+                <option value="random">Random Generator</option>
+                <option value="upload">Upload Excel</option>
+            </select>
+
+            <div id="tsp-random-inputs">
+                <label>Jumlah Kota</label>
+                <input type="number" id="tsp-cities" value="10" min="5" max="50">
+            </div>
+
+            <div id="tsp-upload-inputs" style="display: none;">
+                <label>File Excel (Index=Kota, Kolom=Kota, Isi=Jarak)</label>
+                <input type="file" id="tsp-file" accept=".xlsx">
+            </div>
+
+            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);">⚙️ Konfigurasi GA</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <label>Populasi</label>
+                    <input type="number" id="tsp-pop" value="100">
+                </div>
+                <div>
+                    <label>Generasi</label>
+                    <input type="number" id="tsp-gen" value="200">
+                </div>
+                <div>
+                    <label>Crossover Rate (pc)</label>
+                    <input type="number" id="tsp-pc" value="0.8" step="0.1" max="1.0">
+                </div>
+                <div>
+                    <label>Mutation Rate (pm)</label>
+                    <input type="number" id="tsp-pm" value="0.2" step="0.1" max="1.0">
+                </div>
+                <div>
+                    <label>Tournament Size</label>
+                    <input type="number" id="tsp-tourn" value="5">
+                </div>
+                <div>
+                    <label>Elite Size</label>
+                    <input type="number" id="tsp-elite" value="1">
+                </div>
+            </div>
+
+            <button class="btn-glow" onclick="runTSP()" style="margin-top: 1rem;">Jalankan Simulasi</button>
+        </div>
+        <div>
+            <h3>Hasil</h3>
+            <div id="tsp-results">
+                <p>Jarak Terbaik: <span id="tsp-dist">-</span></p>
+                <p>Rute: <span id="tsp-route">-</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Knapsack Section -->
+<div id="knapsack-section" class="glass-card" style="display: none;">
+    <h2>🎒 Simulator Knapsack</h2>
+    <div class="grid">
+        <div>
+            <label>Kapasitas</label>
+            <input type="number" id="k-capacity" value="15">
+
+            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);">⚙️ Konfigurasi GA</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <label>Populasi</label>
+                    <input type="number" id="k-pop" value="10">
+                </div>
+                <div>
+                    <label>Generasi</label>
+                    <input type="number" id="k-gen" value="20">
+                </div>
+                <div>
+                    <label>Crossover Rate</label>
+                    <input type="number" id="k-cross" value="0.8" step="0.1" max="1.0">
+                </div>
+                <div>
+                    <label>Mutation Rate</label>
+                    <input type="number" id="k-mut" value="0.1" step="0.1" max="1.0">
+                </div>
+                <div style="display: flex; align-items: center; margin-top: 1.5rem;">
+                    <input type="checkbox" id="k-elite" checked
+                        style="width: auto; margin-right: 0.5rem; margin-bottom: 0;">
+                    <label style="margin-bottom: 0;">Elitism</label>
+                </div>
+            </div>
+
+            <button class="btn-glow" onclick="runKnapsack()" style="margin-top: 1rem;">Jalankan Simulasi</button>
+        </div>
+        <div>
+            <h3>Hasil</h3>
+            <div id="k-results">
+                <p>Nilai Terbaik: <span id="k-value">-</span></p>
+                <p>Total Berat: <span id="k-weight">-</span></p>
+                <p>Barang: <span id="k-items">-</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showTab(tab) {
+        document.getElementById('tsp-section').style.display = tab === 'tsp' ? 'block' : 'none';
+        document.getElementById('knapsack-section').style.display = tab === 'knapsack' ? 'block' : 'none';
+    }
+
+    function toggleTSPSource() {
+        const source = document.getElementById('tsp-source').value;
+        document.getElementById('tsp-random-inputs').style.display = source === 'random' ? 'block' : 'none';
+        document.getElementById('tsp-upload-inputs').style.display = source === 'upload' ? 'block' : 'none';
+    }
+
+    async function runTSP() {
+        const source = document.getElementById('tsp-source').value;
+
+        // Get Parameters
+        const pop_size = document.getElementById('tsp-pop').value;
+        const generations = document.getElementById('tsp-gen').value;
+        const pc = document.getElementById('tsp-pc').value;
+        const pm = document.getElementById('tsp-pm').value;
+        const tournament_k = document.getElementById('tsp-tourn').value;
+        const elite_size = document.getElementById('tsp-elite').value;
+
+        let response;
+
+        if (source === 'upload') {
+            const fileInput = document.getElementById('tsp-file');
+            if (fileInput.files.length === 0) {
+                alert("Silakan pilih file Excel terlebih dahulu.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('pop_size', pop_size);
+            formData.append('generations', generations);
+            formData.append('pc', pc);
+            formData.append('pm', pm);
+            formData.append('tournament_k', tournament_k);
+            formData.append('elite_size', elite_size);
+
+            response = await fetch('/api/ga/tsp/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+        } else {
+            const n = document.getElementById('tsp-cities').value;
+            const cities = Array.from({ length: n }, (_, i) => `Kota ${i + 1}`);
+
+            // Generate random distance matrix
+            const distMatrix = Array(Number(n)).fill().map(() => Array(Number(n)).fill(0));
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    if (i !== j) distMatrix[i][j] = Math.random() * 100;
+                }
+            }
+
+            response = await fetch('/api/ga/tsp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cities: cities,
+                    dist_matrix: distMatrix,
+                    pop_size: Number(pop_size),
+                    generations: Number(generations),
+                    pc: Number(pc),
+                    pm: Number(pm),
+                    tournament_k: Number(tournament_k),
+                    elite_size: Number(elite_size)
+                })
+            });
+        }
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('tsp-dist').innerText = data.best_distance.toFixed(2);
+            document.getElementById('tsp-route').innerText = data.best_route.join(' -> ');
+        } else {
+            const err = await response.json();
+            alert("Error: " + (err.detail || "Gagal menjalankan simulasi"));
+        }
+    }
+
+    async function runKnapsack() {
+        const capacity = document.getElementById('k-capacity').value;
+
+        // Get Parameters
+        const pop_size = document.getElementById('k-pop').value;
+        const generations = document.getElementById('k-gen').value;
+        const crossover_rate = document.getElementById('k-cross').value;
+        const mutation_rate = document.getElementById('k-mut').value;
+        const elitism = document.getElementById('k-elite').checked;
+
+        const items = [
+            { name: 'A', weight: 7, value: 5 },
+            { name: 'B', weight: 2, value: 4 },
+            { name: 'C', weight: 1, value: 7 },
+            { name: 'D', weight: 9, value: 2 },
+            { name: 'E', weight: 4, value: 5 },
+            { name: 'F', weight: 3, value: 3 }
+        ];
+
+        const response = await fetch('/api/ga/knapsack', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                capacity: Number(capacity),
+                items: items,
+                pop_size: Number(pop_size),
+                generations: Number(generations),
+                crossover_rate: Number(crossover_rate),
+                mutation_rate: Number(mutation_rate),
+                elitism: elitism
+            })
+        });
+
+        const data = await response.json();
+        document.getElementById('k-value').innerText = data.final_value;
+        document.getElementById('k-weight').innerText = data.final_weight;
+        document.getElementById('k-items').innerText = data.best_items.join(', ');
+    }
+</script>
+{% endblock %}

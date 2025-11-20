@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda - Soft Computing{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
+    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Dimana AI Dimulai.</h1>
+    <p style="font-size: 1.2rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto;">
+        Kuasai konsep Soft Computing melalui simulasi interaktif generasi berikutnya.
+        Pelajari Algoritma Genetika, Logika Fuzzy, dan Neural Networks.
+    </p>
+</div>
+
+<!-- Definition Section -->
+<div class="glass-card" style="border-left: 5px solid var(--primary-color);">
+    <h2>Apa itu Soft Computing?</h2>
+    <p style="font-size: 1.1rem; line-height: 1.6;">
+        <b>Soft Computing</b> adalah sekumpulan metodologi komputasi yang memberikan solusi terhadap masalah
+        yang <i>tidak presisi</i>, <i>tidak pasti</i>, dan <i>kebenarannya parsial</i>.
+        Tujuannya adalah untuk mencapai <b>tractability</b> (kemudahan penanganan), <b>robustness</b> (ketangguhan),
+        dan <b>low solution cost</b> (biaya solusi rendah).
+    </p>
+    <div style="margin-top: 1rem; font-style: italic; opacity: 0.8;">
+        "Soft computing is not a melange. Rather, it is a partnership in which each of the partners contributes a
+        distinct methodology
+        for addressing problems in its domain." <br>
+        — <b>Lotfi A. Zadeh</b>
+    </div>
+</div>
+
+<!-- Comparison Section -->
+<div class="grid" style="margin-bottom: 4rem;">
+    <div class="glass-card" style="background: rgba(255, 0, 80, 0.1);">
+        <h3 style="color: var(--primary-color);">Hard Computing (Konvensional)</h3>
+        <ul style="margin-top: 1rem; list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;">❌ Presisi & Pasti</li>
+            <li style="margin-bottom: 0.5rem;">❌ Model Analitis Kaku</li>
+            <li style="margin-bottom: 0.5rem;">❌ Data Harus Lengkap</li>
+            <li>💻 Contoh: Program Pascal, C++</li>
+        </ul>
+    </div>
+    <div class="glass-card" style="background: rgba(0, 242, 234, 0.1);">
+        <h3 style="color: var(--secondary-color);">Soft Computing (Cerdas)</h3>
+        <ul style="margin-top: 1rem; list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;">✅ Aproksimasi & Tidak Pasti</li>
+            <li style="margin-bottom: 0.5rem;">✅ Model Belajar dari Data</li>
+            <li style="margin-bottom: 0.5rem;">✅ Toleran Data Tidak Lengkap</li>
+            <li>🧠 Contoh: AI, Machine Learning</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Modules Section -->
+<h2 style="text-align: center; margin-bottom: 2rem;">Simulasi Interaktif</h2>
+<div class="grid">
+    <div class="glass-card">
+        <h2 style="color: var(--secondary-color);">🧬 Algoritma Genetika</h2>
+        <p>Simulasikan evolusi untuk memecahkan masalah optimasi kompleks seperti TSP dan Knapsack.</p>
+        <div style="margin-top: 1.5rem;">
+            <a href="/ga" class="btn-glow">Mulai Simulasi</a>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <h2 style="color: var(--primary-color);">☁️ Logika Fuzzy</h2>
+        <p>Modelkan ketidakpastian menggunakan <b>Inferensi Mamdani</b> (Tipping) dan <b>Sugeno</b> (Produksi).</p>
+        <div style="margin-top: 1.5rem;">
+            <a href="/fuzzy" class="btn-glow">Mulai Simulasi</a>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <h2 style="color: #ff9f00;">🧠 Neural Networks</h2>
+        <p>Latih otak buatan untuk mengenali pola (Pelatih Gerbang Logika).</p>
+        <div style="margin-top: 1.5rem;">
+            <a href="/nn" class="btn-glow">Mulai Simulasi</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
