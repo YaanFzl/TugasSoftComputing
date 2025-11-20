@@ -272,3 +272,209 @@ footer {
 .tab-content {
     animation: fadeIn 0.5s ease-out;
 }
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+
+    /* Container & Layout */
+    .container {
+        padding: 1rem;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Navbar Mobile */
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        align-items: flex-start;
+    }
+
+    .nav-logo {
+        font-size: 1.25rem;
+        width: 100%;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    .nav-links a {
+        padding: 0.5rem;
+        display: block;
+        width: 100%;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 12px;
+    }
+
+    /* Grid */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Tabs */
+    .tabs {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    /* Buttons */
+    .btn-glow {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Inputs */
+    input,
+    select,
+    textarea {
+        padding: 10px;
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+    }
+
+    /* Footer */
+    footer {
+        padding: 1.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 480px) {
+
+    /* Container */
+    .container {
+        padding: 0.75rem;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 0.75rem;
+    }
+
+    .nav-logo {
+        font-size: 1.1rem;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 10px;
+    }
+
+    /* Tabs */
+    .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        min-width: 100px;
+    }
+
+    /* Buttons */
+    .btn-glow {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+
+    /* Inputs */
+    input,
+    select,
+    textarea {
+        padding: 8px;
+    }
+}
+
+/* Landscape Mobile Optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+    .navbar {
+        position: relative;
+        padding: 0.5rem 1rem;
+    }
+
+    .container {
+        padding-top: 0.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .glass-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Larger touch targets */
+    .tab-btn,
+    .btn-glow,
+    .nav-links a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Disable hover effects on touch devices */
+    .glass-card:hover {
+        transform: none;
+    }
+}
