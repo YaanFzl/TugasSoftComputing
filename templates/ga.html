@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="glass-card">
-    <h1>🧬 Simulator Algoritma Genetika</h1>
+    <h1><i class="ri-bubble-chart-line"></i> Simulator Algoritma Genetika</h1>
     <p>Pilih masalah yang ingin diselesaikan menggunakan komputasi evolusioner.</p>
 
     <div style="margin-top: 2rem;">
@@ -16,7 +16,7 @@
 
 <!-- TSP Section -->
 <div id="tsp-section" class="glass-card">
-    <h2>🗺️ Simulator TSP</h2>
+    <h2><i class="ri-map-pin-line"></i> Simulator TSP</h2>
     <div class="grid">
         <div>
             <label>Sumber Data</label>
@@ -35,7 +35,8 @@
                 <input type="file" id="tsp-file" accept=".xlsx">
             </div>
 
-            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);">⚙️ Konfigurasi GA</h3>
+            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);"><i class="ri-settings-3-line"></i>
+                Konfigurasi GA</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div>
                     <label>Populasi</label>
@@ -77,13 +78,14 @@
 
 <!-- Knapsack Section -->
 <div id="knapsack-section" class="glass-card" style="display: none;">
-    <h2>🎒 Simulator Knapsack</h2>
+    <h2><i class="ri-shopping-bag-3-line"></i> Simulator Knapsack</h2>
     <div class="grid">
         <div>
             <label>Kapasitas</label>
             <input type="number" id="k-capacity" value="15">
 
-            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);">⚙️ Konfigurasi GA</h3>
+            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);"><i class="ri-settings-3-line"></i>
+                Konfigurasi GA</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div>
                     <label>Populasi</label>
@@ -116,6 +118,34 @@
                 <p>Nilai Terbaik: <span id="k-value">-</span></p>
                 <p>Total Berat: <span id="k-weight">-</span></p>
                 <p>Barang: <span id="k-items">-</span></p>
+            </div>
+        </div>
+
+        <div class="glass-card" style="margin-top: 2rem;">
+            <h2><i class="ri-book-open-line"></i> Teori & Konsep</h2>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3>Konsep Dasar</h3>
+                    <p><b>Algoritma Genetika</b> meniru proses seleksi alam. Solusi terbaik (fittest) bertahan dan
+                        bereproduksi.</p>
+                    <ol style="margin-left: 1.5rem; margin-top: 1rem;">
+                        <li><b>Inisialisasi:</b> Membuat populasi awal secara acak.</li>
+                        <li><b>Evaluasi:</b> Menghitung skor fitness setiap individu.</li>
+                        <li><b>Seleksi:</b> Memilih orang tua (parents) berdasarkan fitness.</li>
+                        <li><b>Crossover:</b> Mengawinkan orang tua untuk menghasilkan anak.</li>
+                        <li><b>Mutasi:</b> Mengubah gen secara acak untuk variasi.</li>
+                    </ol>
+                </div>
+                <div>
+                    <h3>Parameter Penting</h3>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                        <li><b>Population Size:</b> Jumlah individu dalam satu generasi.</li>
+                        <li><b>Generations:</b> Jumlah iterasi evolusi.</li>
+                        <li><b>Crossover Rate (pc):</b> Peluang terjadinya perkawinan.</li>
+                        <li><b>Mutation Rate (pm):</b> Peluang terjadinya mutasi gen.</li>
+                        <li><b>Elitism:</b> Membawa individu terbaik ke generasi berikutnya tanpa perubahan.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

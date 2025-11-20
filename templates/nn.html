@@ -4,13 +4,13 @@
 
 {% block content %}
 <div class="glass-card">
-    <h1>🧠 Pelatih Neural Network</h1>
+    <h1><i class="ri-brain-line"></i> Pelatih Neural Network</h1>
     <p>Latih Neural Network (MLP) sederhana untuk mempelajari Gerbang Logika (AND, OR, XOR).</p>
 </div>
 
 <div class="grid">
     <div class="glass-card">
-        <h2>⚙️ Konfigurasi</h2>
+        <h2><i class="ri-settings-3-line"></i> Konfigurasi</h2>
         <div style="margin-top: 2rem;">
             <label>Gerbang Logika</label>
             <select id="gate">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="glass-card">
-        <h2>📈 Hasil Pelatihan</h2>
+        <h2><i class="ri-line-chart-line"></i> Hasil Pelatihan</h2>
         <div id="nn-results" style="margin-top: 2rem;">
             <p style="color: rgba(255,255,255,0.5);">Latih network untuk melihat hasil...</p>
         </div>
@@ -38,9 +38,87 @@
 </div>
 
 <div class="glass-card">
-    <h2>📚 Teori: Backpropagation</h2>
-    <p>Network belajar dengan menyesuaikan bobot untuk meminimalkan kesalahan antara prediksi dan target.
-        Untuk XOR (masalah non-linear), diperlukan Hidden Layer.</p>
+    <h2><i class="ri-book-open-line"></i> Teori & Konsep</h2>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTheory(event, 'neuron')">Anatomi Neuron</button>
+        <button class="tab-btn" onclick="openTheory(event, 'activation')">Fungsi Aktivasi</button>
+        <button class="tab-btn" onclick="openTheory(event, 'arch')">Arsitektur</button>
+        <button class="tab-btn" onclick="openTheory(event, 'code')">Contoh Code</button>
+    </div>
+
+    <div id="neuron" class="tab-content" style="display: block;">
+        <div style="display: flex; align-items: center; gap: 2rem;">
+            <div style="flex: 1;">
+                <h3>Neuron Buatan</h3>
+                <p>$$ y = \sigma(\sum (w_i \cdot x_i) + b) $$</p>
+                <ul>
+                    <li>$x_i$: Input</li>
+                    <li>$w_i$: Bobot (Weight) - Kekuatan koneksi</li>
+                    <li>$b$: Bias - Ambang batas</li>
+                    <li>$\sigma$: Fungsi Aktivasi</li>
+                </ul>
+            </div>
+            <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                <h4>Inspirasi Biologis</h4>
+                <p>ANN meniru cara kerja otak manusia. Terdiri dari miliaran neuron yang saling terhubung melalui
+                    sinapsis, memungkinkan mesin untuk "belajar" dari data.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="activation" class="tab-content" style="display: none;">
+        <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                <h4>Sigmoid</h4>
+                <p>$$ \sigma(x) = \frac{1}{1 + e^{-x}} $$</p>
+                <small>Range: (0, 1). Bagus untuk probabilitas.</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                <h4>ReLU</h4>
+                <p>$$ f(x) = \max(0, x) $$</p>
+                <small>Range: [0, ∞). Standar industri, cepat & efisien.</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                <h4>Softmax</h4>
+                <p>$$ \sigma(z)_i = \frac{e^{z_i}}{\sum e^{z_j}} $$</p>
+                <small>Output layer untuk klasifikasi multi-kelas.</small>
+            </div>
+        </div>
+    </div>
+
+    <div id="arch" class="tab-content" style="display: none;">
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                <h4>📷 CNN (Convolutional NN)</h4>
+                <p>Spesialis data Grid (Gambar). Menggunakan filter/kernel untuk scan fitur visual.</p>
+                <small style="color: var(--secondary-color);">Aplikasi: Face ID, Medical Imaging.</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                <h4>📝 RNN (Recurrent NN)</h4>
+                <p>Spesialis data Sekuensial (Waktu/Teks). Memiliki 'memori' dari input sebelumnya.</p>
+                <small style="color: var(--secondary-color);">Aplikasi: Translate, Stock Prediction.</small>
+            </div>
+        </div>
+    </div>
+
+    <div id="code" class="tab-content" style="display: none;">
+        <pre style="background: #1e1e1e; padding: 1rem; border-radius: 5px; overflow-x: auto;"><code class="language-python">import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Forward propagation
+hidden_layer_input = np.dot(inputs, weights) + bias
+predicted_output = sigmoid(hidden_layer_input)
+
+# Backpropagation
+error = expected_output - predicted_output
+d_predicted_output = error * sigmoid_derivative(predicted_output)
+
+# Update weights
+weights += np.dot(inputs.T, d_predicted_output) * learning_rate</code></pre>
+    </div>
 </div>
 {% endblock %}
 
@@ -86,6 +164,20 @@
         html += '</div>';
 
         document.getElementById('nn-results').innerHTML = html;
+    }
+
+    function openTheory(evt, theoryName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(theoryName).style.display = "block";
+        evt.currentTarget.className += " active";
     }
 </script>
 {% endblock %}
